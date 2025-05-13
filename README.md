@@ -103,8 +103,8 @@ knowledge/
 1. **克隆项目**
 
 ```bash
-git clone https://github.com/yourusername/knowledge.git
-cd knowledge
+git clone https://github.com/yongyiq/knowledgeBack.git
+cd knowledgeBack
 ```
 
 2. **配置数据库**
@@ -140,7 +140,7 @@ java -jar know-server/target/know-server-1.0-SNAPSHOT.jar
 1. **进入前端目录**
 
 ```bash
-cd knowledge-frontend
+cd knowledgeFront
 ```
 
 2. **安装依赖**
@@ -197,14 +197,6 @@ http://localhost:8080/api/doc.html
 - `likeCount`：点赞数
 - `commentCount`：评论数
 
-## 贡献指南
-
-1. Fork 本仓库
-2. 创建您的特性分支 (`git checkout -b feature/amazing-feature`)
-3. 提交您的更改 (`git commit -m 'Add some amazing feature'`)
-4. 推送到分支 (`git push origin feature/amazing-feature`)
-5. 打开一个 Pull Request
-
 ## 许可证
 
 本项目采用 MIT 许可证 - 详情请参见 [LICENSE](LICENSE) 文件。
@@ -214,6 +206,4 @@ http://localhost:8080/api/doc.html
 - 项目维护者：yongyiq
 - 邮箱：1763364834@qq.com
 
-## 致谢
 
-感谢所有为本项目做出贡献的开发者！
