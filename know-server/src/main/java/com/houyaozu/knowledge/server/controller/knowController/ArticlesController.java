@@ -2,13 +2,17 @@ package com.houyaozu.knowledge.server.controller.knowController;
 
 import com.houyaozu.knowledge.common.result.Result;
 import com.houyaozu.knowledge.pojo.DTO.PageDTO;
+import com.houyaozu.knowledge.pojo.VO.ArticlesVO;
 import com.houyaozu.knowledge.pojo.VO.PageVO;
 import com.houyaozu.knowledge.pojo.domain.Articles;
 import com.houyaozu.knowledge.server.service.ArticlesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @ Author     ：侯耀祖
@@ -24,5 +28,21 @@ public class ArticlesController {
     public Result getArticlesPages(PageDTO pageDTO) {
         PageVO pageVO = articlesService.getPages(pageDTO);
         return Result.ok(pageVO);
+    }
+    @GetMapping("/{id}")
+    public Result getArticle(@PathVariable Integer id) {
+        Articles articles = articlesService.getByArticaleId(id);
+        return Result.ok(articles);
+    }
+    @GetMapping("/hot")
+    public Result getHotArticles(Integer limit) {
+        List<Articles> articlesVO = articlesService.getHotArticles(limit);
+        return Result.ok(articlesVO);
+    }
+    @GetMapping("/{id}/related")
+    public Result relatedArticles(@PathVariable Integer id) {
+        //TODO 查找相似文章接口实现
+        List<Articles> articlesVO = articlesService.getHotArticles(3);
+        return Result.ok(articlesVO);
     }
 }

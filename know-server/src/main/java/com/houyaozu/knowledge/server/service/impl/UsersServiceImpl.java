@@ -53,7 +53,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users>
         if (!users.getPassword().equals(DigestUtils.md5Hex(userDTO.getPassword()))) {
             throw new KnowledgeException(ResultCodeEnum.ADMIN_PASSWORD_ERROR);
         }
-        String token = JwtUtil.createToken(users.getId(), users.getUsername());
+        String token = JwtUtil.createToken(users.getId(), users.getNickname());
         LoginVO loginVO = new LoginVO();
         loginVO.setToken(token);
         UserInfoVO userInfoVO = new UserInfoVO();

@@ -1,5 +1,8 @@
 package com.houyaozu.knowledge.pojo.VO;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.util.Date;
@@ -9,42 +12,37 @@ import java.util.Date;
  * @ Description：
  */
 @Data
-public class UserInfoVO {
+public class ArticlesVO {
+    /**
+     *
+     */
     private Integer id;
 
     /**
      *
      */
-    private String username;
-
-    /**
-     *
-     */
-    private String nickname;
+    private String title;
 
 
     /**
      *
      */
-    private String email;
+    private String summary;
 
     /**
      *
      */
-    private String avatar;
+    private String category;
 
     /**
      *
      */
-    private Object role;
+    private Integer viewCount;
 
-    /**
-     *
-     */
-    private String bio;
 
     /**
      *
      */
     private Date createTime;
+
 }

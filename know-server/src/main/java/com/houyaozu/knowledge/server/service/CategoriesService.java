@@ -12,5 +12,5 @@ import java.util.List;
 */
 public interface CategoriesService extends IService<Categories> {
 
-    List<Categories> getList();
+    List<Categories> getCategorieList();
 }

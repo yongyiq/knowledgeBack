@@ -3,6 +3,7 @@ package com.houyaozu.knowledge.server.config;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.houyaozu.knowledge.common.login.LoginUserHolder;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -13,6 +14,8 @@ import java.util.Date;
  */
 @Component
 public class MybatisMetaObjectHandler implements MetaObjectHandler {
+
+
     @Override
     public void insertFill(MetaObject metaObject) {
         // 创建时间自动填充

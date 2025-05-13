@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import com.houyaozu.knowledge.common.utils.BeanCopyUtils;
 import com.houyaozu.knowledge.pojo.DTO.PageDTO;
+import com.houyaozu.knowledge.pojo.VO.ArticlesVO;
 import com.houyaozu.knowledge.pojo.VO.PageVO;
 import com.houyaozu.knowledge.pojo.domain.Articles;
 import com.houyaozu.knowledge.pojo.domain.Categories;
@@ -14,6 +16,8 @@ import com.houyaozu.knowledge.server.mapper.CategoriesMapper;
 import com.houyaozu.knowledge.server.service.ArticlesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author yongyiq
@@ -50,6 +54,7 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles>
         }
         // 添加标题模糊匹配查询条件，如果关键词不为空
         queryWrapper.like(pageDTO.getKeyword() != null, Articles::getTitle, pageDTO.getKeyword());
+        queryWrapper.eq(Articles::getStatus, "published");
         IPage<Articles> iPage = page(page, queryWrapper);
         // 为每篇文章设置其所属分类的名称，用于返回给前端展示
         iPage.getRecords().forEach(article -> {
@@ -68,6 +73,31 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles>
                 .last(iPage.getCurrent() >= totalPages)
                 .empty(iPage.getRecords().isEmpty())
                 .build();
+    }
+
+    @Override
+    public Articles getByArticaleId(Integer id) {
+        LambdaQueryWrapper<Articles> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Articles::getId, id);
+        Articles articles = getOne(queryWrapper);
+        if (articles != null) {
+            articles.setCategory(categoriesMapper.selectById(articles.getCategoryId()).getName());
+            return articles;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Articles> getHotArticles(Integer limit) {
+        LambdaQueryWrapper<Articles> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Articles::getStatus, "published");
+        queryWrapper.orderByDesc(Articles::getViewCount);
+        queryWrapper.last("limit " + limit);
+        List<Articles> articles = list(queryWrapper);
+        articles.forEach(article -> {
+            article.setCategory(categoriesMapper.selectById(article.getCategoryId()).getName());
+        });
+        return articles;
     }
 }
 

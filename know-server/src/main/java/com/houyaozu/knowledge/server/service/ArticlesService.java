@@ -1,9 +1,12 @@
 package com.houyaozu.knowledge.server.service;
 
 import com.houyaozu.knowledge.pojo.DTO.PageDTO;
+import com.houyaozu.knowledge.pojo.VO.ArticlesVO;
 import com.houyaozu.knowledge.pojo.VO.PageVO;
 import com.houyaozu.knowledge.pojo.domain.Articles;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
 * @author yongyiq
@@ -13,4 +16,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface ArticlesService extends IService<Articles> {
 
     PageVO getPages(PageDTO pageDTO);
+
+    Articles getByArticaleId(Integer id);
+
+    List<Articles> getHotArticles(Integer limit);
 }

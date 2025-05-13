@@ -23,7 +23,7 @@ public class CategoriesController {
 
     @GetMapping()
     public Result getCategories() {
-        List<Categories> list = categoriesService.getList();
+        List<Categories> list = categoriesService.getCategorieList();
         return Result.ok(list);
     }
 }

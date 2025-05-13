@@ -1,6 +1,7 @@
 package com.houyaozu.knowledge.pojo.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
@@ -63,6 +64,12 @@ public class Categories {
      * 
      */
     private Date updateTime;
+
+    /**
+     *
+     */
+    @TableField(exist = false)
+    private Long count;
 
     /**
      * 0-正常,1-删除
