@@ -21,4 +21,16 @@
         content_id,create_by,create_time,
         update_by,update_time,del_flag
     </sql>
+    <update id="updateFlag">
+        UPDATE user_favorites
+        SET del_flag = #{delFlag}
+        WHERE id = #{id}
+    </update>
+    <select id="existOne" resultType="com.houyaozu.knowledge.pojo.domain.UserFavorites">
+        SELECT *
+        FROM user_favorites
+        WHERE user_id = #{userId}
+        AND content_type = #{article}
+        AND content_id = #{contentId}
+    </select>
 </mapper>

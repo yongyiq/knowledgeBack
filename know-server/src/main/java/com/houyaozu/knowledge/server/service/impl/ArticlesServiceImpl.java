@@ -115,10 +115,11 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles>
         if (LoginUserHolder.getLoginUser() == null) {
             throw new KnowledgeException(ResultCodeEnum.ADMIN_LOGIN_AUTH);
         }
-        if (userFavoritesMapper.exists(new LambdaQueryWrapper<UserFavorites>().eq(UserFavorites::getUserId, LoginUserHolder.getLoginUser().getUserId())
-                .eq(UserFavorites::getContentType, "article")
-                .eq(UserFavorites::getContentId, id))) {
-            throw new KnowledgeException(ResultCodeEnum.DATA_ERROR);
+        UserFavorites userFavorites = userFavoritesMapper.existOne(LoginUserHolder.getLoginUser().getUserId(), "article", id);
+        if (userFavorites != null && userFavorites.getDelFlag() == 1) {
+            userFavorites.setDelFlag(0);
+            userFavoritesMapper.updateFlag(userFavorites);
+            return;
         }
         userFavoritesMapper.insert(UserFavorites.builder()
                 .userId(LoginUserHolder.getLoginUser().getUserId())

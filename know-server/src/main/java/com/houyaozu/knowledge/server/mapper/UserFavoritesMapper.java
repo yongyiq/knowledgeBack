@@ -15,6 +15,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserFavoritesMapper extends BaseMapper<UserFavorites> {
 
+    UserFavorites existOne(Integer userId, String article, Integer contentId);
+
+    void updateFlag(UserFavorites userFavorites);
 }
 
 
