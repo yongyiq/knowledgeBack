@@ -5,14 +5,19 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import com.houyaozu.knowledge.common.exception.KnowledgeException;
+import com.houyaozu.knowledge.common.login.LoginUserHolder;
+import com.houyaozu.knowledge.common.result.ResultCodeEnum;
 import com.houyaozu.knowledge.common.utils.BeanCopyUtils;
 import com.houyaozu.knowledge.pojo.DTO.PageDTO;
 import com.houyaozu.knowledge.pojo.VO.ArticlesVO;
 import com.houyaozu.knowledge.pojo.VO.PageVO;
 import com.houyaozu.knowledge.pojo.domain.Articles;
 import com.houyaozu.knowledge.pojo.domain.Categories;
+import com.houyaozu.knowledge.pojo.domain.UserFavorites;
 import com.houyaozu.knowledge.server.mapper.ArticlesMapper;
 import com.houyaozu.knowledge.server.mapper.CategoriesMapper;
+import com.houyaozu.knowledge.server.mapper.UserFavoritesMapper;
 import com.houyaozu.knowledge.server.service.ArticlesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +36,8 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles>
 
     @Autowired
     private CategoriesMapper categoriesMapper;
+    @Autowired
+    private UserFavoritesMapper userFavoritesMapper;
 
     /**
      * 分页获取文章数据，并支持根据分类名称和关键词进行过滤
@@ -59,6 +66,7 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles>
         // 为每篇文章设置其所属分类的名称，用于返回给前端展示
         iPage.getRecords().forEach(article -> {
             article.setCategory(categoriesMapper.selectById(article.getCategoryId()).getName());
+            extracted(article);
         });
         // 计算总页数
         int totalPages = (int) Math.ceil((double) iPage.getTotal() / iPage.getSize());
@@ -82,6 +90,7 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles>
         Articles articles = getOne(queryWrapper);
         if (articles != null) {
             articles.setCategory(categoriesMapper.selectById(articles.getCategoryId()).getName());
+            extracted(articles);
             return articles;
         }
         return null;
@@ -96,8 +105,50 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles>
         List<Articles> articles = list(queryWrapper);
         articles.forEach(article -> {
             article.setCategory(categoriesMapper.selectById(article.getCategoryId()).getName());
+            extracted(article);
         });
         return articles;
+    }
+
+    @Override
+    public void favorite(Integer id) {
+        if (LoginUserHolder.getLoginUser() == null) {
+            throw new KnowledgeException(ResultCodeEnum.ADMIN_LOGIN_AUTH);
+        }
+        if (userFavoritesMapper.exists(new LambdaQueryWrapper<UserFavorites>().eq(UserFavorites::getUserId, LoginUserHolder.getLoginUser().getUserId())
+                .eq(UserFavorites::getContentType, "article")
+                .eq(UserFavorites::getContentId, id))) {
+            throw new KnowledgeException(ResultCodeEnum.DATA_ERROR);
+        }
+        userFavoritesMapper.insert(UserFavorites.builder()
+                .userId(LoginUserHolder.getLoginUser().getUserId())
+                .contentType("article")
+                .contentId(id)
+                .build());
+    }
+
+    @Override
+    public void unfavorite(Integer id) {
+        if (LoginUserHolder.getLoginUser() == null) {
+            throw new KnowledgeException(ResultCodeEnum.ADMIN_LOGIN_AUTH);
+        }
+        LambdaQueryWrapper<UserFavorites> article = new LambdaQueryWrapper<UserFavorites>().eq(UserFavorites::getUserId, LoginUserHolder.getLoginUser().getUserId())
+                .eq(UserFavorites::getContentType, "article")
+                .eq(UserFavorites::getContentId, id);
+        if (userFavoritesMapper.exists(article)) {
+            userFavoritesMapper.delete(new LambdaQueryWrapper<UserFavorites>().eq(UserFavorites::getUserId, LoginUserHolder.getLoginUser().getUserId())
+                    .eq(UserFavorites::getContentType, "article")
+                    .eq(UserFavorites::getContentId, id));
+        }
+    }
+
+    //判断用户是否收藏
+    public void extracted(Articles articles) {
+        if (LoginUserHolder.getLoginUser() != null) {
+            articles.setIsFeatured(userFavoritesMapper.exists(new LambdaQueryWrapper<UserFavorites>().eq(UserFavorites::getUserId, LoginUserHolder.getLoginUser().getUserId())
+                    .eq(UserFavorites::getContentType, "article")
+                    .eq(UserFavorites::getContentId, articles.getId())) ? 1 : 0);
+        }
     }
 }
 

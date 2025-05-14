@@ -7,10 +7,7 @@ import com.houyaozu.knowledge.pojo.VO.PageVO;
 import com.houyaozu.knowledge.pojo.domain.Articles;
 import com.houyaozu.knowledge.server.service.ArticlesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,5 +41,15 @@ public class ArticlesController {
         //TODO 查找相似文章接口实现
         List<Articles> articlesVO = articlesService.getHotArticles(3);
         return Result.ok(articlesVO);
+    }
+    @PostMapping("/{id}/favorite")
+    public Result articleFavorite(@PathVariable Integer id) {
+        articlesService.favorite(id);
+        return Result.ok();
+    }
+    @DeleteMapping("/{id}/favorite")
+    public Result articleUnfavorite(@PathVariable Integer id) {
+        articlesService.unfavorite(id);
+        return Result.ok();
     }
 }

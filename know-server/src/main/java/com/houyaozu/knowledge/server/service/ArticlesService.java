@@ -20,4 +20,8 @@ public interface ArticlesService extends IService<Articles> {
     Articles getByArticaleId(Integer id);
 
     List<Articles> getHotArticles(Integer limit);
+
+    void favorite(Integer id);
+
+    void unfavorite(Integer id);
 }
