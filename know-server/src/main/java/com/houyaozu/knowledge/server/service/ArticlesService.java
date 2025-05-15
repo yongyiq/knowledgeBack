@@ -1,7 +1,6 @@
 package com.houyaozu.knowledge.server.service;
 
 import com.houyaozu.knowledge.pojo.DTO.PageDTO;
-import com.houyaozu.knowledge.pojo.VO.ArticlesVO;
 import com.houyaozu.knowledge.pojo.VO.PageVO;
 import com.houyaozu.knowledge.pojo.domain.Articles;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -24,4 +23,6 @@ public interface ArticlesService extends IService<Articles> {
     void favorite(Integer id);
 
     void unfavorite(Integer id);
+
+    List<String> getTagsById(Integer id);
 }

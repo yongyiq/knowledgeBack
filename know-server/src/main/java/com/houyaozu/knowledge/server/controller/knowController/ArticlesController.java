@@ -21,6 +21,7 @@ public class ArticlesController {
 
     @Autowired
     private ArticlesService articlesService;
+    private String type = "article";
     @GetMapping
     public Result getArticlesPages(PageDTO pageDTO) {
         PageVO pageVO = articlesService.getPages(pageDTO);
@@ -35,6 +36,11 @@ public class ArticlesController {
     public Result getHotArticles(Integer limit) {
         List<Articles> articlesVO = articlesService.getHotArticles(limit);
         return Result.ok(articlesVO);
+    }
+    @GetMapping("/{id}/tags")
+    public Result getTags(@PathVariable Integer id) {
+        List<String> tags = articlesService.getTagsById(id);
+        return Result.ok(tags);
     }
     @GetMapping("/{id}/related")
     public Result relatedArticles(@PathVariable Integer id) {
@@ -52,4 +58,5 @@ public class ArticlesController {
         articlesService.unfavorite(id);
         return Result.ok();
     }
+    //TODO点赞接口后续使用redis实现
 }

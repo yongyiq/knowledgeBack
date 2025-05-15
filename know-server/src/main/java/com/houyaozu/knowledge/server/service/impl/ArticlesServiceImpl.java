@@ -8,16 +8,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.houyaozu.knowledge.common.exception.KnowledgeException;
 import com.houyaozu.knowledge.common.login.LoginUserHolder;
 import com.houyaozu.knowledge.common.result.ResultCodeEnum;
-import com.houyaozu.knowledge.common.utils.BeanCopyUtils;
 import com.houyaozu.knowledge.pojo.DTO.PageDTO;
-import com.houyaozu.knowledge.pojo.VO.ArticlesVO;
 import com.houyaozu.knowledge.pojo.VO.PageVO;
+import com.houyaozu.knowledge.pojo.domain.ArticleTags;
 import com.houyaozu.knowledge.pojo.domain.Articles;
 import com.houyaozu.knowledge.pojo.domain.Categories;
 import com.houyaozu.knowledge.pojo.domain.UserFavorites;
-import com.houyaozu.knowledge.server.mapper.ArticlesMapper;
-import com.houyaozu.knowledge.server.mapper.CategoriesMapper;
-import com.houyaozu.knowledge.server.mapper.UserFavoritesMapper;
+import com.houyaozu.knowledge.server.mapper.*;
 import com.houyaozu.knowledge.server.service.ArticlesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,11 +35,16 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles>
     private CategoriesMapper categoriesMapper;
     @Autowired
     private UserFavoritesMapper userFavoritesMapper;
+    @Autowired
+    private ArticleTagsMapper articleTagsMapper;
+    @Autowired
+    private TagsMapper tagsMapper;
 
     /**
      * 分页获取文章数据，并支持根据分类名称和关键词进行过滤
      *
      * @param pageDTO 包含分页参数及筛选条件（如分类名、关键词）
+     * @param type
      * @return PageVO 返回封装后的分页结果，包含总页数、当前页数据等信息
      */
     @Override
@@ -83,19 +85,33 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles>
                 .build();
     }
 
+    /**
+     * 根据文章ID获取文章详情
+     *
+     * @param id 文章ID
+     * @return 文章对象，如果不存在则返回null
+     */
     @Override
     public Articles getByArticaleId(Integer id) {
         LambdaQueryWrapper<Articles> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Articles::getId, id);
         Articles articles = getOne(queryWrapper);
         if (articles != null) {
+            // 设置文章类别名称
             articles.setCategory(categoriesMapper.selectById(articles.getCategoryId()).getName());
+            // 提取公共方法，用于设置文章是否被当前用户收藏
             extracted(articles);
             return articles;
         }
         return null;
     }
 
+    /**
+     * 获取热门文章列表
+     *
+     * @param limit 限制返回的文章数量
+     * @return 热门文章列表
+     */
     @Override
     public List<Articles> getHotArticles(Integer limit) {
         LambdaQueryWrapper<Articles> queryWrapper = new LambdaQueryWrapper<>();
@@ -104,14 +120,22 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles>
         queryWrapper.last("limit " + limit);
         List<Articles> articles = list(queryWrapper);
         articles.forEach(article -> {
+            // 设置文章类别名称
             article.setCategory(categoriesMapper.selectById(article.getCategoryId()).getName());
+            // 提取公共方法，用于设置文章是否被当前用户收藏
             extracted(article);
         });
         return articles;
     }
 
+    /**
+     * 收藏文章
+     *
+     * @param id 文章ID
+     */
     @Override
     public void favorite(Integer id) {
+        // 检查用户是否已登录
         if (LoginUserHolder.getLoginUser() == null) {
             throw new KnowledgeException(ResultCodeEnum.ADMIN_LOGIN_AUTH);
         }
@@ -128,8 +152,14 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles>
                 .build());
     }
 
+    /**
+     * 取消收藏文章
+     *
+     * @param id 文章ID
+     */
     @Override
     public void unfavorite(Integer id) {
+        // 检查用户是否已登录
         if (LoginUserHolder.getLoginUser() == null) {
             throw new KnowledgeException(ResultCodeEnum.ADMIN_LOGIN_AUTH);
         }
@@ -143,9 +173,20 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles>
         }
     }
 
-    //判断用户是否收藏
+    @Override
+    public List<String> getTagsById(Integer id) {
+        return articleTagsMapper.selectList(new LambdaQueryWrapper<ArticleTags>().eq(ArticleTags::getArticleId, id))
+                .stream().map(articleTags -> tagsMapper.selectById(articleTags.getTagId()).getName()).toList();
+    }
+
+    /**
+     * 判断用户是否收藏了某篇文章
+     *
+     * @param articles 文章对象
+     */
     public void extracted(Articles articles) {
         if (LoginUserHolder.getLoginUser() != null) {
+            // 设置文章是否被当前用户收藏的标志
             articles.setIsFeatured(userFavoritesMapper.exists(new LambdaQueryWrapper<UserFavorites>().eq(UserFavorites::getUserId, LoginUserHolder.getLoginUser().getUserId())
                     .eq(UserFavorites::getContentType, "article")
                     .eq(UserFavorites::getContentId, articles.getId())) ? 1 : 0);

@@ -19,12 +19,19 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class AuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String authorization = request.getHeader("Authorization");
-        String token = authorization.substring("Bearer ".length());
-        Claims claims = JwtUtil.parseToken(token);
-        Integer userId = claims.get("userId", Integer.class);
-        String username = claims.get("username", String.class);
-        LoginUserHolder.setLoginUser(new LoginUser(userId, username));
+        try {
+            String authorization = request.getHeader("Authorization");
+            if (authorization == null) {
+                return true;
+            }
+            String token = authorization.substring("Bearer ".length());
+            Claims claims = JwtUtil.parseToken(token);
+            Integer userId = claims.get("userId", Integer.class);
+            String username = claims.get("username", String.class);
+            LoginUserHolder.setLoginUser(new LoginUser(userId, username));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
