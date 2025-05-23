@@ -18,6 +18,11 @@ spring:
       pool-name: SPHHikariPool # 连接池名称
   jackson:
     time-zone: GMT+8
+  ai:
+    ollama:
+      base-url: http://10.196.88.221:11434
+      chat:
+        model: deepseek-r1:7b
 
 #  data:
 #    redis:

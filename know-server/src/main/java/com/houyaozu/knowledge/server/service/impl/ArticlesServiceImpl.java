@@ -44,7 +44,6 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles>
      * 分页获取文章数据，并支持根据分类名称和关键词进行过滤
      *
      * @param pageDTO 包含分页参数及筛选条件（如分类名、关键词）
-     * @param type
      * @return PageVO 返回封装后的分页结果，包含总页数、当前页数据等信息
      */
     @Override
