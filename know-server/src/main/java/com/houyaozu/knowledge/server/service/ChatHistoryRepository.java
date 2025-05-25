@@ -9,10 +9,10 @@ import java.util.List;
 public interface ChatHistoryRepository {
     /**
      * 保存聊天记录
-     * @param type 业务类型
+     * @param userId 用户id
      * @param chatId
      */
-    void saveHistory(String type, String chatId);
+    void saveHistory(String userId, String chatId);
     /**
      * 获取聊天记录
      * @param type 业务类型

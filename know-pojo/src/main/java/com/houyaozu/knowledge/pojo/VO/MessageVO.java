@@ -20,7 +20,7 @@ public class MessageVO {
             case ASSISTANT :
                 role = "assistant";
                 break;
-                default:
+            default:
                 role = "";
                 break;
 

@@ -1,10 +1,13 @@
 package com.houyaozu.knowledge.server.config;
 
 
+import com.houyaozu.knowledge.common.utils.RedisCache;
+import com.houyaozu.knowledge.server.Repository.RedisChatMemoryRepository;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.memory.ChatMemoryRepository;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +21,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AIConfiguration {
 
+    @Autowired
+    private RedisChatMemoryRepository repository;
 
-    private final ChatMemory chatMemory = MessageWindowChatMemory.builder().build();
 
+    ChatMemory chatMemory = MessageWindowChatMemory.builder()
+    .chatMemoryRepository(repository)
+    .maxMessages(10)
+    .build();
     @Bean
-    public ChatMemory getChatMemory() {
+    public ChatMemory chatMemory() {
         return chatMemory;
     }
-
     @Bean
     public ChatClient chatClient(OllamaChatModel model) {
         return ChatClient.builder(model)
