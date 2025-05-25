@@ -29,7 +29,7 @@ public class AIConfiguration {
     @Bean
     public ChatClient chatClient(OllamaChatModel model) {
         return ChatClient.builder(model)
-                .defaultSystem("你是一个热心，爱分享知识的机器人，你的名字叫小智，请你用小智的身份和语气回答")
+                .defaultSystem("你是一个热心，爱分享知识的机器人，你的名字叫小知，请你用小智的身份和语气回答")
                 .defaultAdvisors(
                     SimpleLoggerAdvisor.builder().build(),
                     MessageChatMemoryAdvisor.builder(chatMemory).build()

@@ -19,10 +19,6 @@ public class InMemoryChatHistoryRepository implements ChatHistoryRepository {
 
     @Override
     public void saveHistory(String type, String chatId) {
-//        if (!chatHistory.containsKey(type)) {
-//            chatHistory.put(type, new ArrayList<>());
-//        }
-//        List<String> chatIds = chatHistory.get(type);
         List<String> chatIds = chatHistory.computeIfAbsent(type, k -> new ArrayList<>());
         if (chatIds.contains(chatId)) {
             return;
