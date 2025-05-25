@@ -23,6 +23,10 @@ spring:
       base-url: http://10.196.88.221:11434
       chat:
         model: deepseek-r1
+logging:
+  level:
+    org.springframework.ai.chat.client.advisor: debug
+    com.houyaozu.knowledge: debug
 
 #  data:
 #    redis:

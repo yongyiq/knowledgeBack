@@ -30,7 +30,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             String username = claims.get("username", String.class);
             LoginUserHolder.setLoginUser(new LoginUser(userId, username));
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new KnowledgeException(ResultCodeEnum.TOKEN_EXPIRED);
         }
         return true;
     }
