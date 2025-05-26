@@ -1,4 +1,4 @@
-package com.houyaozu.knowledge.common.utils;
+package com.houyaozu.knowledge.server.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundSetOperations;
@@ -236,5 +236,10 @@ public class RedisCache {
     {
         return redisTemplate.keys(pattern);
     }
+
+    public void addToList(String key, AutoMessage message) {
+        redisTemplate.opsForList().rightPush(key, message);
+    }
+
 
 }

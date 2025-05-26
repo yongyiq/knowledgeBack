@@ -54,25 +54,25 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .excludePathPatterns("/user/login")
                 .excludePathPatterns("/user/register");
     }
-    @Bean//使用@Bean注入fastJsonHttpMessageConvert
-    public HttpMessageConverter fastJsonHttpMessageConverters() {
-        //1.需要定义一个Convert转换消息的对象
-        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
-        FastJsonConfig fastJsonConfig = new FastJsonConfig();
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
-        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        fastJsonConfig.setSerializeConfig(SerializeConfig.globalInstance);
-        fastConverter.setFastJsonConfig(fastJsonConfig);
-        // 👇 只让 FastJson 处理 application/json
-        List<MediaType> supportedMediaTypes = new ArrayList<>();
-        supportedMediaTypes.add(MediaType.APPLICATION_JSON);
-        fastConverter.setSupportedMediaTypes(supportedMediaTypes);
-        return fastConverter;
-    }
-
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(fastJsonHttpMessageConverters());
-    }
+//    @Bean//使用@Bean注入fastJsonHttpMessageConvert
+//    public HttpMessageConverter fastJsonHttpMessageConverters() {
+//        //1.需要定义一个Convert转换消息的对象
+//        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
+//        FastJsonConfig fastJsonConfig = new FastJsonConfig();
+//        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
+//        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
+//
+//        fastJsonConfig.setSerializeConfig(SerializeConfig.globalInstance);
+//        fastConverter.setFastJsonConfig(fastJsonConfig);
+//        // 👇 只让 FastJson 处理 application/json
+//        List<MediaType> supportedMediaTypes = new ArrayList<>();
+//        supportedMediaTypes.add(MediaType.APPLICATION_JSON);
+//        fastConverter.setSupportedMediaTypes(supportedMediaTypes);
+//        return fastConverter;
+//    }
+//
+//    @Override
+//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        converters.add(fastJsonHttpMessageConverters());
+//    }
 }

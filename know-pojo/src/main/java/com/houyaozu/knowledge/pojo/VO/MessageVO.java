@@ -23,7 +23,6 @@ public class MessageVO {
             default:
                 role = "";
                 break;
-
         }
         this.content = message.getText();
     }

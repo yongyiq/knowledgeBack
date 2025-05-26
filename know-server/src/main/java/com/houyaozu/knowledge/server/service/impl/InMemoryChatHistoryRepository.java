@@ -1,14 +1,12 @@
 package com.houyaozu.knowledge.server.service.impl;
 
-import com.houyaozu.knowledge.common.utils.RedisCache;
+import com.houyaozu.knowledge.server.config.RedisCache;
 import com.houyaozu.knowledge.server.service.ChatHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @ Author     ：侯耀祖

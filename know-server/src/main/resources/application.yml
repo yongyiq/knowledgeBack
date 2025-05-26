@@ -20,7 +20,7 @@ spring:
     time-zone: GMT+8
   ai:
     ollama:
-      base-url: http://10.196.88.221:11434
+      base-url: http://10.196.77.90:11434
       chat:
         model: deepseek-r1
   data:
