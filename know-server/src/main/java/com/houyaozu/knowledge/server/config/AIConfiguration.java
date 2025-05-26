@@ -3,6 +3,7 @@ package com.houyaozu.knowledge.server.config;
 
 import com.houyaozu.knowledge.common.utils.RedisCache;
 import com.houyaozu.knowledge.server.Repository.RedisChatMemoryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
@@ -19,18 +20,14 @@ import org.springframework.context.annotation.Configuration;
  * @ Description：
  */
 @Configuration
+
 public class AIConfiguration {
 
-    @Autowired
-    private RedisChatMemoryRepository repository;
-
-
-    ChatMemory chatMemory = MessageWindowChatMemory.builder()
-    .chatMemoryRepository(repository)
-    .maxMessages(10)
-    .build();
+//    @Autowired
+//    private ChatMemory chatMemory;
+    ChatMemory chatMemory = MessageWindowChatMemory.builder().build();
     @Bean
-    public ChatMemory chatMemory() {
+    public ChatMemory getChatMemory(){
         return chatMemory;
     }
     @Bean
