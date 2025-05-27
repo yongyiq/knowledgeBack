@@ -19,4 +19,8 @@ public interface ChatHistoryRepository {
      * @return
      */
     List<String> getChatIds(String type);
+
+    void deleteHistory(String userId, String chatId);
+
+    void deleteAllHistory(String userId);
 }

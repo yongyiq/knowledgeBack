@@ -48,13 +48,13 @@ public class RedisChatMemoryRepository implements ChatMemoryRepository {
             existing = List.of();
         }
         Set<String> existingKeys = existing.stream()
-            .map(m -> m.getType() + ":" + m.getText())  // 定义消息唯一标识
+            .map(AutoMessage::getId)  // 定义消息唯一标识
             .collect(Collectors.toSet());
 
         // 过滤出新增消息
         List<AutoMessage> newMessages = messages.stream()
             .map(AutoMessage::fromSpringMessage)
-            .filter(m -> !existingKeys.contains(m.getType() + ":" + m.getText()))
+            .filter(m -> !existingKeys.contains(m.getId()))
             .toList();
 
         // 追加新增消息

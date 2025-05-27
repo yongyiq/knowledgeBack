@@ -239,6 +239,7 @@ public class RedisCache {
 
     public void addToList(String key, AutoMessage message) {
         redisTemplate.opsForList().rightPush(key, message);
+        redisTemplate.expire(key, 1, TimeUnit.DAYS);
     }
 
 

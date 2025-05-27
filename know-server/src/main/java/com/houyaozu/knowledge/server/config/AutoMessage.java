@@ -2,10 +2,15 @@ package com.houyaozu.knowledge.server.config;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.ai.chat.messages.*;
 import org.springframework.ai.content.Media;
+import org.springframework.util.DigestUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -15,12 +20,17 @@ import java.util.Map;
  */
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AutoMessage {
+    private String id;
     private String type; // user / system / assistant
     private String text;
     private Map<String, Object> metadata;
     private List<AssistantMessage.ToolCall> toolCalls; // 用于 assistant message
     private List<Media> media; // 如果你用到了 media 的话
+    private long timestamp;
 
 
     // getters / setters
@@ -49,11 +59,15 @@ public class AutoMessage {
     }
 
     public static AutoMessage fromSpringMessage(Message msg) {
-        AutoMessage auto = new AutoMessage();
-        auto.setText(msg.getText());
-        auto.setMetadata(msg.getMetadata());
-        auto.setType(msg.getMessageType().name().toLowerCase());
-        return auto;
+        String type = msg.getMessageType().name();
+        String text = msg.getText();
+        String id = DigestUtils.md5DigestAsHex((type + ":" + text).getBytes(StandardCharsets.UTF_8));
+        return AutoMessage.builder()
+                .id(id)
+                .type(type)
+                .text(text)
+                .timestamp(System.currentTimeMillis())
+                .build();
     }
 }
 

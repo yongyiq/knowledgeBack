@@ -4,6 +4,7 @@ package com.houyaozu.knowledge.server.controller.AIController;
 import com.houyaozu.knowledge.common.exception.KnowledgeException;
 import com.houyaozu.knowledge.common.login.LoginUser;
 import com.houyaozu.knowledge.common.login.LoginUserHolder;
+import com.houyaozu.knowledge.common.result.Result;
 import com.houyaozu.knowledge.common.result.ResultCodeEnum;
 import com.houyaozu.knowledge.common.utils.BeanCopyUtils;
 import com.houyaozu.knowledge.pojo.VO.MessageVO;
@@ -13,10 +14,7 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.chat.messages.Message;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
@@ -68,5 +66,25 @@ public class AIController {
             return List.of();
         }
         return messages.stream().map(MessageVO::new).toList();
+    }
+    @DeleteMapping("/delete/{type}")
+    public Result clearAllHistory(String type) {
+        LoginUser loginUser = LoginUserHolder.getLoginUser();
+        if (Objects.isNull(loginUser)){
+            throw new KnowledgeException(ResultCodeEnum.ADMIN_LOGIN_AUTH);
+        }
+        String userId = loginUser.getUserId().toString();
+        chatHistoryRepository.deleteAllHistory(userId);
+        return Result.ok();
+    }
+    @DeleteMapping("/delete/{type}/{chatId}")
+    public Result clearHistory(String type, @PathVariable String chatId) {
+        LoginUser loginUser = LoginUserHolder.getLoginUser();
+        if (Objects.isNull(loginUser)){
+            throw new KnowledgeException(ResultCodeEnum.ADMIN_LOGIN_AUTH);
+        }
+        String userId = loginUser.getUserId().toString();
+        chatHistoryRepository.deleteHistory(userId, chatId);
+        return Result.ok();
     }
 }

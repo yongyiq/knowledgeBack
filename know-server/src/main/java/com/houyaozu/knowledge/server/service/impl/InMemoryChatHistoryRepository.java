@@ -35,4 +35,21 @@ public class InMemoryChatHistoryRepository implements ChatHistoryRepository {
         List<String> chatIds = redisCache.getCacheObject(userId);
         return chatIds == null ? List.of() : chatIds;
     }
+
+    @Override
+    public void deleteHistory(String userId, String chatId) {
+        List<String> chatIds = redisCache.getCacheObject(userId);
+        chatIds.remove(chatId);
+        redisCache.setCacheObject(userId, chatIds);
+        redisCache.deleteObject(userId + ":" + chatId);
+    }
+
+    @Override
+    public void deleteAllHistory(String userId) {
+        List<String> chatIds = redisCache.getCacheObject(userId);
+        for (String chatId : chatIds) {
+            redisCache.deleteObject(userId + ":" + chatId);
+        }
+        redisCache.deleteObject(userId);
+    }
 }
