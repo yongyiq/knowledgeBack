@@ -7,7 +7,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/knowledge?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2b8
     username: root
-    password: 134513
+    password: houyaozu829
     hikari:
       connection-test-query: SELECT 1 # 自动检测连接
       connection-timeout: 60000 #数据库连接超时时间,默认30秒
@@ -20,14 +20,20 @@ spring:
     time-zone: GMT+8
   ai:
     ollama:
-      base-url: http://10.196.77.90:11434
+      base-url: http://localhost:11434
       chat:
-        model: deepseek-r1
+        model: qwen3:8b
   data:
     redis:
-      host: 192.168.140.101
+      host: localhost
       port: 6379
-      database: 1
+      database: 0
+  rabbitmq:
+    host: localhost
+    port: 5672
+    virtual-host: /yongyiq
+    username: yongyiq
+    password: 134513
 logging:
   level:
     org.springframework.ai.chat.client.advisor: debug
