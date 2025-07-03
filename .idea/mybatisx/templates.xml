@@ -16,7 +16,7 @@
             <option name="ignoreTablePrefix" value="" />
             <option name="ignoreTableSuffix" value="" />
             <option name="moduleName" value="know-pojo" />
-            <option name="modulePath" value="$PROJECT_DIR$" />
+            <option name="modulePath" value="$PROJECT_DIR$/know-pojo" />
             <option name="moduleUIInfoList">
               <list>
                 <ModuleInfoGo>
@@ -26,7 +26,7 @@
                   <option name="encoding" value="${domain.encoding}" />
                   <option name="fileName" value="${domain.fileName}ServiceImpl" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}ServiceImpl.java" />
-                  <option name="modulePath" value="$PROJECT_DIR$" />
+                  <option name="modulePath" value="$PROJECT_DIR$/know-pojo" />
                   <option name="packageName" value="${domain.basePackage}.service.impl" />
                 </ModuleInfoGo>
                 <ModuleInfoGo>
@@ -36,7 +36,7 @@
                   <option name="encoding" value="${domain.encoding}" />
                   <option name="fileName" value="${domain.fileName}Mapper" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}Mapper.java" />
-                  <option name="modulePath" value="$PROJECT_DIR$" />
+                  <option name="modulePath" value="$PROJECT_DIR$/know-pojo" />
                   <option name="packageName" value="${domain.basePackage}.mapper" />
                 </ModuleInfoGo>
                 <ModuleInfoGo>
@@ -46,7 +46,7 @@
                   <option name="encoding" value="${domain.encoding}" />
                   <option name="fileName" value="${domain.fileName}Service" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}Service.java" />
-                  <option name="modulePath" value="$PROJECT_DIR$" />
+                  <option name="modulePath" value="$PROJECT_DIR$/know-pojo" />
                   <option name="packageName" value="${domain.basePackage}.service" />
                 </ModuleInfoGo>
                 <ModuleInfoGo>
@@ -56,8 +56,8 @@
                   <option name="encoding" value="${domain.encoding}" />
                   <option name="fileName" value="${domain.fileName}Mapper" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}Mapper.xml" />
-                  <option name="modulePath" value="$PROJECT_DIR$" />
-                  <option name="packageName" value="mapper" />
+                  <option name="modulePath" value="$PROJECT_DIR$/know-pojo" />
+                  <option name="packageName" value="${domain.basePackage}.mapper" />
                 </ModuleInfoGo>
               </list>
             </option>
@@ -69,72 +69,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="ArticleTags" />
-                  <option name="tableName" value="article_tags" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="Articles" />
-                  <option name="tableName" value="articles" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="CarouselItems" />
-                  <option name="tableName" value="carousel_items" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="Categories" />
-                  <option name="tableName" value="categories" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="Comments" />
-                  <option name="tableName" value="comments" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="CompetitionParticipants" />
-                  <option name="tableName" value="competition_participants" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="Competitions" />
-                  <option name="tableName" value="competitions" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="ExperienceTags" />
-                  <option name="tableName" value="experience_tags" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="Experiences" />
-                  <option name="tableName" value="experiences" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="ProjectTags" />
-                  <option name="tableName" value="project_tags" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="Projects" />
-                  <option name="tableName" value="projects" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="Tags" />
-                  <option name="tableName" value="tags" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="ToolTags" />
-                  <option name="tableName" value="tool_tags" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="Tools" />
-                  <option name="tableName" value="tools" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="UserFavorites" />
-                  <option name="tableName" value="user_favorites" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="UserLikes" />
-                  <option name="tableName" value="user_likes" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="Users" />
-                  <option name="tableName" value="users" />
+                  <option name="className" value="ChatMessage" />
+                  <option name="tableName" value="chat_message" />
                 </TableUIInfo>
               </list>
             </option>

@@ -148,7 +148,7 @@ public class Competitions {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", title=").append(title);
-        sb.append(", description=").append(description);
+        sb.append(", content=").append(description);
         sb.append(", rules=").append(rules);
         sb.append(", prize=").append(prize);
         sb.append(", coverImage=").append(coverImage);

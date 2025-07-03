@@ -21,7 +21,6 @@ public class ArticlesController {
 
     @Autowired
     private ArticlesService articlesService;
-    private String type = "article";
     @GetMapping
     public Result getArticlesPages(PageDTO pageDTO) {
         PageVO pageVO = articlesService.getPages(pageDTO);

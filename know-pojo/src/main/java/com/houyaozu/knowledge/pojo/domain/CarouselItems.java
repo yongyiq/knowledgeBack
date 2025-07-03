@@ -127,7 +127,7 @@ public class CarouselItems {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", title=").append(title);
-        sb.append(", description=").append(description);
+        sb.append(", content=").append(description);
         sb.append(", image=").append(image);
         sb.append(", link=").append(link);
         sb.append(", sortOrder=").append(sortOrder);

@@ -11,6 +11,7 @@ public class PageDTO {
     private Integer page;
     private Integer size;
     private String category;
+    private String status;
     private String keyword;
     private String sort;
 }

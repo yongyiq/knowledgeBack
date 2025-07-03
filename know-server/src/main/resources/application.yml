@@ -31,9 +31,22 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    virtual-host: /yongyiq
+    virtual-host: /
     username: yongyiq
     password: 134513
+    # 开启发送确认
+    publisher-confirm-type: correlated
+    # 开启发送失败退回
+    publisher-returns: true
+    # 开启手动确认模式
+    listener:
+      simple:
+        acknowledge-mode: manual
+        # 设置消费者数量
+        concurrency: 1
+        max-concurrency: 3
+        # 设置预取数量
+        prefetch: 1
 logging:
   level:
     org.springframework.ai.chat.client.advisor: debug

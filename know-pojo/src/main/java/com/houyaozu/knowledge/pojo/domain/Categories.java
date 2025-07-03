@@ -127,7 +127,7 @@ public class Categories {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
-        sb.append(", description=").append(description);
+        sb.append(", content=").append(description);
         sb.append(", parentId=").append(parentId);
         sb.append(", icon=").append(icon);
         sb.append(", sortOrder=").append(sortOrder);
